@@ -5,6 +5,7 @@ import ListBlogs from './containers/blog';
 import Add from './containers/blog/add';
 import Edit from './containers/blog/edit';
 
+
 function App() {
 	return (
 		<div className="App">
@@ -22,16 +23,17 @@ function App() {
 						</ul>
 					</nav>
 
-					<Switch>
-						<Route path="/" >
+					<Switch >
+						<Route exact path="/" >
 							<ListBlogs />
 						</Route>
-						<Route path="/add"  >
+						<Route exact path="/add"  >
 							<Add />
 						</Route>
-						<Route path="/edit/:id" >
+						<Route exact path="/edit/:uuid" >
 							<Edit />
 						</Route>
+
 					</Switch>
 				</div>
 			</Router>

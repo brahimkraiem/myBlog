@@ -1,14 +1,17 @@
 import React from 'react';
 import Blog from '../../components/blog';
+import { connect } from 'react-redux';
 
-const ListBlogs=()=>{
-    const allBlogs=[];
+const ListBlogs=(props)=>{
+    
+       if(!props.allBlogs) return(<div>tttttttt</div>)
         return (
             <div>
-              {allBlogs.map(blog=><Blog image={blog.image} title={blog.title}  />)  }
+              {props.allBlogs.map((blog)=><Blog key={blog.id} id={blog.id} image={blog.file} title={blog.title}   />) }
             </div>
         );
     
 }
 
-export default ListBlogs;
+const mapStateToProps=(state)=> ({allBlogs:state.blogs});
+export default connect(mapStateToProps,null)(ListBlogs);
