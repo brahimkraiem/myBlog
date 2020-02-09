@@ -69,8 +69,6 @@ const Blog = props => {
 			<AlertDialogue
 				deleteBlog={deleteBlog}
 				show={show}
-				confirmMessage={'Confimer'}
-				closeMessage={'Cancel'}
 				closeModal={handleClose}
 				showModal={handleDelete}
 				header={'Confirm Delete'}

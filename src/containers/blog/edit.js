@@ -10,13 +10,12 @@ const toBase64 = file =>
 		reader.readAsDataURL(file);
 		reader.onload = () => resolve(reader.result);
 		reader.onerror = error => reject(error);
-    });
-    
-    
+	});
+
 const Edit = props => {
 	const param = useParams();
 	const history = useHistory();
-	
+
 	const resulBlog = props.allBlogs.find(b => {
 		console.log(b.id);
 		return b.id === param.uuid;
@@ -110,8 +109,7 @@ const Edit = props => {
 			</button>
 			<AlertDialogue
 				show={show}
-				showModal={handleModal}
-				confirmMessage={'Ok'}
+				closeModal={handleModal}
 				header={'Edit Blog'}
 				body={'Blog a été modifié avec succès'}
 			/>

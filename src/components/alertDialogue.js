@@ -1,6 +1,6 @@
 import React from "react";
 import { Button,Modal } from 'react-bootstrap';
-const AlertDialogue =({closeModal,showModal,header,body,show,showDelete,closeMessage,confirmMessage,deleteBlog})=>{
+const AlertDialogue =({closeModal,showModal,header,body,show,deleteBlog})=>{
   
     return(
        <> 
@@ -10,12 +10,12 @@ const AlertDialogue =({closeModal,showModal,header,body,show,showDelete,closeMes
         </Modal.Header>
         <Modal.Body><p>{body}</p></Modal.Body>
         <Modal.Footer>
-         {deleteBlog?<Button  variant="secondary" showDelete={showDelete}  onClick={closeModal}>
-            {closeMessage}
-          </Button>:""} 
-          <Button variant="primary" onClick={showModal}>
-            {confirmMessage}
-          </Button>
+         <Button  variant="secondary"  onClick={closeModal}>
+            close
+          </Button> 
+          {deleteBlog?<Button variant="primary" onClick={showModal}>
+            confirm
+          </Button>:""}
         </Modal.Footer>
       </Modal>
      </> 
