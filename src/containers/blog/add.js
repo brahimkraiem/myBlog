@@ -18,13 +18,19 @@ const Add = props => {
 	const history = useHistory();
 	const [isOpen, setIsOpen] = useState(false);
 
-	const [title, setTitle] = useState("");
-	const [content, setContent] = useState("");
+	const [fields, setFields] = useState([{
+		name: 'title',
+		value: '',
+		error: false
+	}, {
+		name: 'content',
+		value: '',
+		error: false
+	}]);
+
+
 	const [file, setFile] = useState("");
 	const [category, setCategory] = useState("");
-	const [titleError, setTitleError] = useState("");
-	const [contentError, setContentError] = useState("");
-	const [isValid, setIsValid] = useState(false);
 	const inputFile = useRef(null);
 
 	const handleFileChange = async e => {
@@ -37,22 +43,24 @@ const Add = props => {
 		inputFile.current.click();
 	};
 	const validateForm = (value, name) => {
-		if (title === "") {
-			setTitleError("Title is required ");
-
-			setIsValid(false);
-			return;
+		if (name === "title") {
+			setFields([{ value: value, error: value === '' }, fields[1]])
 		}
-		if (content === "") {
-			setTitleError("Content is required ");
-			setIsValid(false);
-			return;
+		if (name === "content") {
+			setFields([fields[0], { value: value, error: value === '' }])
 		}
 	};
 	const handleSubmit = e => {
 		e.preventDefault();
+		const isValid = !fields[0].error && !fields[1].error
 		if (isValid === true) {
-			props.addBlog({ id: uuidv1(), title, content, category, file });
+			props.addBlog({
+				id: uuidv1(),
+				title: fields[0].value,
+				content: fields[1].value,
+				category,
+				file
+			});
 		}
 	};
 
@@ -75,7 +83,7 @@ const Add = props => {
 							validateForm(e.target.value, "title");
 						}}
 					/>
-					{isValid ? <div className="errorMessage">{titleError}</div> : ""}
+					{fields[0].error ? <small className="errorMessage">this field is required</small> : ""}
 				</div>
 				<div className="form-group">
 					<label htmlFor="exampleInputContent">Content</label>
@@ -88,7 +96,7 @@ const Add = props => {
 							validateForm(e.target.value, "content");
 						}}
 					/>
-					<div className="errorMessage">{contentError}</div>
+					{fields[1].error ? <small className="errorMessage">this field is required</small> : ''}
 				</div>
 				<div className="form-group">
 					<label htmlFor="exampleInputCategory">Category</label>
