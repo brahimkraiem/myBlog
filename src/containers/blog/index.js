@@ -7,29 +7,28 @@ const ListBlogs = props => {
 	const uniqueBlogs = Array.from(new Set(props.allBlogs.map(c => c.category))).map(category => {
 		return props.allBlogs.find(a => a.category === category);
 	});
-	console.log('filteredRedundunt', uniqueBlogs);
 	const [selectedCategory, setCategory] = useState('');
-	const [searchInput, setInput] = useState('');
-    const search=(query,data)=>{
-		let newFilteredData=[];
+	const [input, setInput] = useState("");
+	const search=(query,data)=>{
+		let filteredData=[];
 		if(query.category && query.input){
-			newFilteredData = data.filter(c => c.category === query.category && c.title.toLowerCase().includes(query.input.toLowerCase())  );
-		}else if(query.category ){
-			newFilteredData = data.filter(c => c.category === query.category);
-		}else newFilteredData = data.filter(c => c.title.toLowerCase().includes(query.input.toLowerCase())  );
-		
-
-          return newFilteredData;
+			filteredData = data.filter(c => c.category === query.category && c.title.toLowerCase().includes(query.input.toLowerCase()) );
+		}else if(query.category){
+			filteredData = data.filter(c => c.category === query.category);
+		}else  filteredData = data.filter(c => c.title.toLowerCase().includes(query.input.toLowerCase()));
+		return filteredData;
 	}
+
 	const handleSelect = e => {
-	
-			setCategory(e.target.value);
+		setCategory(e.target.value);
 	};
 	const handleSearch = e => {
 		setInput(e.target.value);
 	};
-	const query={category:selectedCategory,input:searchInput};
-    const data=search(query,props.allBlogs);
+	const query={category:selectedCategory,input:input};
+	const newFilteredData=search(query,props.allBlogs);;
+	
+	console.log("newFilteredData",newFilteredData);
 	if (!props.allBlogs) return <div></div>;
 	return (
 		<div>
@@ -54,7 +53,7 @@ const ListBlogs = props => {
 					})}
 				</select>
 			</div>
-			{data.map(blog => (
+			{newFilteredData.map(blog => (
 				<Blog key={blog.id} id={blog.id} image={blog.file?blog.file:blogImg} title={blog.title} category={blog.category} />
 			))}
 		</div>

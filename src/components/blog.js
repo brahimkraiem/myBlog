@@ -8,16 +8,9 @@ const Blog = props => {
 	//history
 	const history = useHistory();
 	//handle state
-	const [show, setShow] = useState(false);
-	const [deleteBlog] = useState(true);
+		const [isOpen, setIsOpen] = useState(false);
 	//handle close
-	const handleClose = () => {
-		setShow(false);
-	};
-	//handle show
-	const handleShow = () => {
-		setShow(true);
-	};
+
 
 	// handle click
 	const handleClick = () => {};
@@ -28,7 +21,7 @@ const Blog = props => {
 	//handle delete
 	const handleDelete = () => {
 		props.deleteBlog(props.id);
-		setShow(false);
+		setIsOpen(false);
 	};
 	// format date now
 	const dateNow = new Date();
@@ -45,7 +38,7 @@ const Blog = props => {
 				<button type="submit" className="btn btn-primary m-3" onClick={handleEdit}>
 					Edit
 				</button>
-				<button type="submit" className="btn btn-primary m-3" onClick={handleShow}>
+				<button type="submit" className="btn btn-primary m-3" onClick={()=>setIsOpen(true)}>
 					Delete
 				</button>
 				<div className="card-body d-flex flex-column align-items-start">
@@ -67,13 +60,14 @@ const Blog = props => {
 				/>
 			</div>
 			<AlertDialogue
-				deleteBlog={deleteBlog}
-				show={show}
-				closeModal={handleClose}
-				showModal={handleDelete}
-				header={'Confirm Delete'}
-				body={'Are you sure  you want to delete this blog?'}
-			/>
+				isOpen={isOpen}
+				title="Delete Blog"
+				content="Blog a été supprimé avec succès"
+				setIsOpen={setIsOpen}
+				openReset={handleDelete}
+				handleDismiss={()=>setIsOpen(false)}
+				diplayBtn
+				/>	
 		</>
 	);
 };

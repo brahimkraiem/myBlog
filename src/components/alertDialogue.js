@@ -1,10 +1,17 @@
 import React from "react";
-import { Button,Modal } from 'react-bootstrap';
-const AlertDialogue =({closeModal,showModal,header,body,show,deleteBlog})=>{
+import {Dialog, Box, Text, Button } from '@primer/components';
+const AlertDialogue =({isOpen,setIsOpen,title,content,openSubmit,openReset,handleDismiss,displaBtn})=>{
   
     return(
        <> 
-        <Modal show={show} onHide={closeModal}>
+       <Dialog title={title} isOpen={isOpen} onDismiss={handleDismiss}>
+						<Box p={3}>
+							<Text fontFamily="sans-serif">{content}</Text>
+						</Box>
+            {displaBtn?<Button onClick={openSubmit}>Ok</Button>:""}
+            <Button  onClick={openReset}>close</Button>
+				</Dialog>
+        {/* <Modal show={show} onHide={closeModal}>
         <Modal.Header closeButton>
           <Modal.Title>{header}</Modal.Title>
         </Modal.Header>
@@ -17,7 +24,7 @@ const AlertDialogue =({closeModal,showModal,header,body,show,deleteBlog})=>{
             confirm
           </Button>:""}
         </Modal.Footer>
-      </Modal>
+      </Modal> */}
      </> 
     )
 }
