@@ -18,15 +18,8 @@ const Add = props => {
 	const history = useHistory();
 	const [isOpen, setIsOpen] = useState(false);
 
-	const [fields, setFields] = useState([{
-		name: 'title',
-		value: '',
-		error: false
-	}, {
-		name: 'content',
-		value: '',
-		error: false
-	}]);
+	const [fields, setFields] = useState({})
+	const [errors, setErrors] = useState({})
 
 
 	const [file, setFile] = useState("");
@@ -42,14 +35,29 @@ const Add = props => {
 		// `current` points to the mounted file input element
 		inputFile.current.click();
 	};
-	const validateForm = (value, name) => {
-		if (name === "title") {
-			setFields([{ value: value, error: value === '' }, fields[1]])
+	const handleValidation = (name, value) => {
+		let formIsValid = true
+		const f = { ...fields, [name]: value }
+		let errors = {};
+		if (!f["title"]) {
+			formIsValid = false;
+			errors["title"] = "Cannot be empty";
 		}
-		if (name === "content") {
-			setFields([fields[0], { value: value, error: value === '' }])
+		if (!f["content"]) {
+			formIsValid = false;
+			errors["content"] = "Cannot be empty";
 		}
+		setErrors(errors)
 	};
+
+	const handleChange = (field, value) => {
+
+		setFields({
+			...fields,
+			[field]: value
+		});
+	}
+
 	const handleSubmit = e => {
 		e.preventDefault();
 		const isValid = !fields[0].error && !fields[1].error
@@ -80,10 +88,11 @@ const Add = props => {
 						placeholder="title"
 						name="title"
 						onChange={e => {
-							validateForm(e.target.value, "title");
+							handleChange(e.target.name, e.target.value)
+							handleValidation(e.target.name, e.target.value)
 						}}
 					/>
-					{fields[0].error ? <small className="errorMessage">this field is required</small> : ""}
+					<small style={{ color: "red" }}>{errors["title"]}</small>
 				</div>
 				<div className="form-group">
 					<label htmlFor="exampleInputContent">Content</label>
@@ -93,10 +102,11 @@ const Add = props => {
 						placeholder="content"
 						name="content"
 						onChange={e => {
-							validateForm(e.target.value, "content");
+							handleValidation(e.target.name, e.target.value)
+							handleChange(e.target.name, e.target.value)
 						}}
 					/>
-					{fields[1].error ? <small className="errorMessage">this field is required</small> : ''}
+					<small style={{ color: "red" }}>{errors["content"]}</small>
 				</div>
 				<div className="form-group">
 					<label htmlFor="exampleInputCategory">Category</label>
